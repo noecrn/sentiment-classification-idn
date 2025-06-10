@@ -118,3 +118,29 @@ def vectorize_with_features(texts, max_features=8000):
     X_combined = hstack([X_tfidf, X_features])
     
     return X_combined, vectorizer
+
+
+def transform_with_features(texts, vectorizer):
+    """Transforme des textes en utilisant un vectorizer déjà entraîné."""
+    from scipy.sparse import hstack
+
+    cleaned = texts.apply(advanced_clean_text)
+    X_tfidf = vectorizer.transform(cleaned)
+
+    text_stats = []
+    for text in texts:
+        stats = get_text_statistics(text)
+        text_stats.append([
+            stats["simple_polarity"],
+            stats["positive_ratio"],
+            stats["negative_ratio"],
+            stats["avg_word_length"],
+            stats["word_count"],
+            stats["char_count"]
+        ])
+
+    X_features = np.array(text_stats)
+    X_combined = hstack([X_tfidf, X_features])
+
+    return X_combined
+
