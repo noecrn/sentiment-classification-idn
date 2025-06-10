@@ -1,4 +1,8 @@
 pandas
+numpy
 scikit-learn
+nltk
+textblob
 matplotlib
 wordcloud
+vaderSentiment
